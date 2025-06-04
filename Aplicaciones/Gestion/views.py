@@ -42,6 +42,11 @@ def eliminarEquipo(request, id):
     messages.success(request, "Equipo eliminado exitosamente")
     return redirect('/')
 
+# Mostrar el formulario para editar un equipo existente
+def editarEquipo(request, id):
+    equipo = Equipo.objects.get(id=id)
+    return render(request, "editarEquipo.html", {'equipo': equipo})
+
  #Vista para la edición del equipo
 def procesarEdicionEquipo(request):
     id = request.POST["id"]
@@ -147,3 +152,4 @@ def procesarEdicionJugador(request):
     jugador.save()
     messages.success(request, "Jugador actualizado exitosamente")
     return redirect(f'/jugadores/{jugador.equipo.id}/')
+
