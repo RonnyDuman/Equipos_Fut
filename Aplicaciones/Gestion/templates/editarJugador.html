@@ -1,0 +1,67 @@
+{% extends './plantilla.html' %}
+{% block body %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">Editar Jugador</h2>
+    <form action="/procesarEdicionJugador" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="frm_editarJugador">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ jugador.id }}">
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ jugador.nombre }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="posicion" class="form-label">Posición:</label>
+            <input type="text" class="form-control" id="posicion" name="posicion" value="{{ jugador.posicion }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="numero_camiseta" class="form-label">Número de camiseta:</label>
+            <input type="number" class="form-control" id="numero_camiseta" name="numero_camiseta" min="1" max="99" value="{{ jugador.numero_camiseta }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="equipo" class="form-label">Equipo:</label>
+            <select class="form-select" id="equipo" name="equipo" required>
+                {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if jugador.equipo.id == equipo.id %}selected{% endif %}>{{ equipo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="foto" class="form-label">Foto actual:</label><br>
+            {% if jugador.foto %}
+                <img src="{{ jugador.foto.url }}" alt="Foto del jugador" width="120" class="img-thumbnail mb-2"><br>
+            {% else %}
+                <span class="text-muted">Sin foto</span><br>
+            {% endif %}
+            <label for="foto" class="form-label mt-2">Cambiar foto:</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+            <small class="form-text text-muted">Dejar vacío para no cambiar la imagen.</small>
+        </div>
+
+        
+        
+        <!-- <div class="mb-3">
+            <label for=""><b>Nuevo archivo:</b></label><br>
+            <input type="file" class="form-control" id="archivo" name="archivo" accept=".pdf,.doc,.docx,.zip,.rar,.txt">
+            <small class="form-text text-muted">Selecciona un archivo para cambiar por favor.</small>
+        </div>-->
+
+        <div class="mb-3">
+            <label for="ficha_pdf" class="form-label mt-2">Cambiar ficha técnica (PDF):</label>
+            <input type="file" class="form-control" id="ficha_pdf" name="ficha_pdf" accept="application/pdf">
+            <small class="form-text text-muted">Dejar vacío para no cambiar el archivo.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Guardar cambios</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/jugadores/" class="btn btn-secondary">Volver al listado</a>
+    </div>
+</div>
+
+{% endblock %}
