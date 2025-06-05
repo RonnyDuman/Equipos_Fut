@@ -1,0 +1,83 @@
+{% extends './plantilla.html' %}
+
+{% block body %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">Registrar nuevo jugador</h2>
+    <form action="/guardarJugador/" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="frm_nuevoJugador">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre">
+        </div>
+
+        <div class="mb-3">
+            <label for="posicion" class="form-label">Posición:</label>
+            <input type="text" class="form-control" id="posicion" name="posicion">
+        </div>
+
+        <div class="mb-3">
+            <label for="numero" class="form-label">Número:</label>
+            <input type="number" class="form-control" id="numero" name="numero" min="1">
+        </div>
+
+        <div class="mb-3">
+            <label for="foto" class="form-label">Foto:</label>
+            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+            <label for="curriculum" class="form-label">Currículum en PDF:</label>
+            <input type="file" class="form-control" id="curriculum" name="curriculum" accept="application/pdf">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Guardar</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/jugadores/" class="btn btn-secondary">Volver al listado</a>
+    </div>
+</div>
+
+<!-- Validaciones con jQuery -->
+<script>
+    $("#frm_nuevoJugador").validate({
+        rules:{
+            "nombre":{
+                required:true,
+                minlength:4,
+                maxlength:30
+            },
+            "posicion":{
+                required:true,
+                minlength:2,
+                maxlength:30
+            },
+            "numero":{
+                required:true,
+                number:true,
+                min:1,
+                max:99
+            }
+        },
+        messages:{
+            "nombre":{
+                required:"Ingrese el nombre del jugador.",
+                minlength:"Mínimo 4 caracteres.",
+                maxlength:"Máximo 30 caracteres."
+            },
+            "posicion":{
+                required:"Ingrese la posición del jugador.",
+                minlength:"Mínimo 2 caracteres.",
+                maxlength:"Máximo 30 caracteres."
+            },
+            "numero":{
+                required:"Ingrese el número del jugador.",
+                number:"Debe ser un número.",
+                min:"Número mínimo: 1.",
+                max:"Número máximo: 99."
+            }
+        }
+    });
+</script>
+{% endblock %}
