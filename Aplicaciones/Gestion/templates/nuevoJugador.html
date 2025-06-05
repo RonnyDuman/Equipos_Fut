@@ -1,4 +1,6 @@
 {% extends './plantilla.html' %}
+{% load static %}
+
 
 {% block body %}
 <div class="container mt-5" style="max-width: 600px;">
@@ -18,7 +20,7 @@
 
         <div class="mb-3">
             <label for="numero" class="form-label">Número:</label>
-            <input type="number" class="form-control" id="numero" name="numero" min="1">
+            <input type="number" class="form-control" id="numero" name="numero_camiseta" min="1">
         </div>
 
         <div class="mb-3">
@@ -27,8 +29,18 @@
         </div>
 
         <div class="mb-3">
-            <label for="curriculum" class="form-label">Currículum en PDF:</label>
-            <input type="file" class="form-control" id="curriculum" name="curriculum" accept="application/pdf">
+            <label for="equipo_id" class="form-label">Equipo:</label>
+           <select class="form-select" id="equipo_id" name="equipo_id" required>
+                <option value="">Seleccione un equipo</option>
+                {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="ficha_pdf" class="form-label">Currículum en PDF:</label>
+            <input type="file" class="form-control" id="ficha_pdf" name="ficha_pdf" accept="application/pdf">
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Guardar</button>

@@ -3,6 +3,10 @@ from .models import Equipo, Jugador
 from django.contrib import messages
 # Create your views here.
 
+
+def inicio(request):
+    return render(request, 'inicio.html')
+
 #Vistas para Equipo
 
 #Mostrar la lista de equipos
@@ -28,7 +32,7 @@ def guardarEquipo(request):
         escudo=escudo_subido
     )
     messages.success(request, "Equipo guardado exitosamente")
-    return redirect('/')
+    return redirect('/equipos/')
 
 # Eliminar un equipo por su ID
 def eliminarEquipo(request, id):
@@ -40,7 +44,7 @@ def eliminarEquipo(request, id):
     
     equipo.delete()
     messages.success(request, "Equipo eliminado exitosamente")
-    return redirect('/')
+    return redirect('/equipos/')
 
 # Mostrar el formulario para editar un equipo existente
 def editarEquipo(request, id):
@@ -64,50 +68,52 @@ def procesarEdicionEquipo(request):
 
     equipo.save()
     messages.success(request, "Equipo actualizado exitosamente")
-    return redirect('/')
+    return redirect('/equipos/')
 
 
 #Vista para Jugador
 
 
 # Mostrar lista de jugadores por equipo
-def listarJugadoresPorEquipo(request, id_equipo):
-    equipo = Equipo.objects.get(id=id_equipo)
-    jugadores = Jugador.objects.filter(equipo=equipo)
-    return render(request, "jugadores.html", {
-        'jugadores': jugadores,
-        'equipo': equipo
-    })
-
+def listarJugadores(request):
+    jugadores = Jugador.objects.all()
+    return render(request, 'jugadores.html', {'jugadores': jugadores})
 #Formulario para registrar nuevo jugador
 
-def nuevoJugador(request, id_equipo):
-    equipo=Equipo.objects.get(id=id_equipo)
-    return render (request, "nuevoJugador.html", {'equipo':equipo})
+def nuevoJugador(request):
+    equipos = Equipo.objects.all()
+    return render(request, 'nuevoJugador.html', {'equipos': equipos})
     
 #Guardar nuevo jugador
 def guardarJugador(request):
-    nombre = request.POST["nombre"]
-    posicion = request.POST["posicion"]
-    numero_camiseta = request.POST["numero_camiseta"]
-    equipo_id = request.POST["equipo_id"]
-    
-    foto_subida = request.FILES.get("foto", None)
-    ficha_pdf_subida = request.FILES.get("ficha_pdf", None)
-    
+    equipo_id = request.POST.get("equipo_id")
+
+    if not equipo_id:
+        messages.error(request, "Debe seleccionar un equipo.")
+        return redirect('/nuevoJugador/')  # Redirige al formulario
+
+    nombre = request.POST.get("nombre")
+    posicion = request.POST.get("posicion")
+    numero_camiseta = request.POST.get("numero_camiseta")
+    foto = request.FILES.get("foto")
+    ficha_pdf = request.FILES.get("ficha_pdf")
+
     equipo = Equipo.objects.get(id=equipo_id)
-    
+
     Jugador.objects.create(
         nombre=nombre,
         posicion=posicion,
         numero_camiseta=numero_camiseta,
-        foto=foto_subida,
-        ficha_pdf=ficha_pdf_subida,
+        foto=foto,
+        ficha_pdf=ficha_pdf,
         equipo=equipo
     )
-    
+
     messages.success(request, "Jugador guardado exitosamente")
-    return redirect(f'/jugadores/{equipo_id}/')
+    return redirect(f'/jugadores/')
+
+
+
 
 # Eliminar jugador
 def eliminarJugador(request, id):
@@ -122,7 +128,7 @@ def eliminarJugador(request, id):
 
     jugador.delete()
     messages.success(request, "Jugador eliminado exitosamente")
-    return redirect(f'/jugadores/{id_equipo}/')
+    return redirect(f'/jugadores/')
 
 
 # Formulario de edición de jugador
@@ -151,5 +157,5 @@ def procesarEdicionJugador(request):
 
     jugador.save()
     messages.success(request, "Jugador actualizado exitosamente")
-    return redirect(f'/jugadores/{jugador.equipo.id}/')
+    return redirect(f'/jugadores/')
 

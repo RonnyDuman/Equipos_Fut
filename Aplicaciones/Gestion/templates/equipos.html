@@ -20,19 +20,21 @@
     <table class="table table-bordered table-striped">
         <head class="table-dark text-center">
             <tr>
+                <th>ID</th>
                 <th>Escudo</th>
                 <th>Nombre</th>
                 <th>Ciudad</th>
                 <th>Entrenador</th>
-                <th>Acciones</th>
+                <th class="text-center">Acciones</th>
             </tr>
         </head>
           <body>
             {% for equipo in equipos %}
             <tr>
+                <td>{{ equipo.id }}</td>
                 <td class="text-center">
                     {% if equipo.escudo %}
-                        <img src="{{ equipo.escudo.url }}" alt="Escudo" width="60">
+                        <img src="{{ equipo.escudo.url }}" alt="Escudo" width="70" height="70" class="img-thumbnail">
                     {% else %}
                         <span class="text-muted">Sin imagen</span>
                     {% endif %}
@@ -41,7 +43,6 @@
                 <td>{{ equipo.ciudad }}</td>
                 <td>{{ equipo.entrenador }}</td>
                 <td class="text-center">
-                    <a href="/jugadores/{{ equipo.id }}/" class="btn btn-primary btn-sm">Ver Jugadores</a>
                     <a href="/editarEquipo/{{ equipo.id }}/" class="btn btn-warning btn-sm">Editar</a>
                     <a href="/eliminarEquipo/{{ equipo.id }}/" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro de eliminar este equipo?');">Eliminar</a>
                 </td>

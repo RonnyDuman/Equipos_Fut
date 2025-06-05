@@ -1,8 +1,10 @@
 {% extends './plantilla.html' %}
+{% load static %}
+
 {% block body %}
 <div class="container mt-5" style="max-width: 600px;">
     <h2 class="mb-4 text-center">Editar Jugador</h2>
-    <form action="/procesarEdicionJugador" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="frm_editarJugador">
+    <form action="/actualizarJugador/" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="frm_editarJugador">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ jugador.id }}">
 
