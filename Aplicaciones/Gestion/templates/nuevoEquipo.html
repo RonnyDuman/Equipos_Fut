@@ -1,0 +1,39 @@
+{% extends 'plantilla.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Registrar Nuevo Equipo</h2>
+
+    <form action="/guardarEquipo/" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="frm_nuevoEquipo">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del equipo:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="ciudad" class="form-label">Ciudad:</label>
+            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="entrenador" class="form-label">Entrenador:</label>
+            <input type="text" class="form-control" id="entrenador" name="entrenador" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="escudo" class="form-label">Escudo (imagen):</label>
+            <input type="file" class="form-control" id="escudo" name="escudo" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Guardar Equipo</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/equipos/" class="btn btn-secondary">Volver al listado</a>
+    </div>
+</div>
+
+{% endblock %}
