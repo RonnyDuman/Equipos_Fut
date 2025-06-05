@@ -17,6 +17,36 @@
                     <th>Equipo</th>
                 </tr>
             </head>
+            <body>
+                {% for jugador in jugadores %}
+                <tr>
+                    <td class="text-center">
+                        {% if jugador.foto %}
+                            <img src="{{ jugador.foto.url }}" alt="Foto" width="70" height="70" class="img-thumbnail">
+                        {% else %}
+                            <span class="text-muted">Sin foto</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ jugador.nombre }}</td>
+                    <td>{{ jugador.posicion }}</td>
+                    <td>{{ jugador.numero_camiseta }}</td>
+                    <td class="text-center">
+                        {% if jugador.ficha_pdf %}
+                            <a href="{{ jugador.ficha_pdf.url }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                Ver ficha
+                            </a>
+                        {% else %}
+                            <span class="text-muted">Sin ficha</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ jugador.equipo.nombre }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay jugadores registrados.</td>
+                </tr>
+                {% endfor %}
+            </body>
         </table>
     </div>
 </div>
