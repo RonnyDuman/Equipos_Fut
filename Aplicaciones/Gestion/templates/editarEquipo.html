@@ -42,4 +42,43 @@
     </div>
 </div>
 
+<!-- Validación jQuery -->
+<script>
+    $("#frm_editarEquipo").validate({
+        rules:{
+            "nombre":{
+                required:true,
+                minlength:3,
+                maxlength:100
+            },
+            "ciudad":{
+                required:true,
+                minlength:3,
+                maxlength:100
+            },
+            "entrenador":{
+                required:true,
+                minlength:3,
+                maxlength:100
+            }
+        },
+        messages:{
+            "nombre":{
+                required:"Ingrese el nombre del equipo.",
+                minlength:"Mínimo 3 caracteres.",
+                maxlength:"Máximo 100 caracteres."
+            },
+            "ciudad":{
+                required:"Ingrese la ciudad.",
+                minlength:"Mínimo 3 caracteres.",
+                maxlength:"Máximo 100 caracteres."
+            },
+            "entrenador":{
+                required:"Ingrese el nombre del entrenador.",
+                minlength:"Mínimo 3 caracteres.",
+                maxlength:"Máximo 100 caracteres."
+            }
+        }
+    });
+</script>
 {% endblock %}
